@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" href="logoat.png">
+<title>AnzoToltech</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1: #071318;   /* profundo - base */
+    --bg-2: #0f2b2b;   /* azul petróleo */
+    --card: #0f2230;   /* tarjeta oscura */
+    --accent-1: #7b6cff; /* violeta tenue */
+    --accent-2: #2dd4bf; /* verde menta/cian */
+    --muted: #bfc9d1;
+    --glass: rgba(255,255,255,0.03);
+    --radius: 12px;
+    --shadow-soft: 0 8px 30px rgba(2,8,13,0.6);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:var(--muted);background:linear-gradient(180deg,var(--bg-1),var(--bg-2));-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1120px;margin:0 auto;padding:28px}
+
+  /* header */
+  header{position:fixed;inset:16px 0 auto 0;display:flex;justify-content:space-between;align-items:center;padding:10px 28px;margin:0 12px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);backdrop-filter:blur(6px);box-shadow:var(--shadow-soft);z-index:60}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo-badge{width:56px;height:56px;display:flex;align-items:center;justify-content:center;overflow:hidden;background: transparent !important; border-radius: 0; }
+
+  .logo-badge img{width:80%;height:80%;object-fit:contain;display:block;}
+  .brand h1{font-size:18px;margin:0;color:#eaf0f4;letter-spacing:0.6px}
+  nav{display:flex;gap:14px;align-items:center}
+  nav a{padding:8px 12px;border-radius:10px;color:var(--muted);font-weight:600;transition:all .22s ease}
+  nav a:hover{background:rgba(255,255,255,0.02);color:#fff;transform:translateY(-3px)}
+
+  .cta-ghost{padding:8px 14px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);cursor:pointer}
+  .cta-primary{padding:10px 16px;border-radius:12px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));color:#041014;font-weight:700;border:none;cursor:pointer;box-shadow:0 6px 24px rgba(123,108,255,0.12)}
+  .cta-primary:hover{transform:translateY(-4px)}
+
+  main{padding-top:120px}
+
+  /* HERO */
+  .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:10px}
+  .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:34px;border-radius:18px;box-shadow:var(--shadow-soft);overflow:hidden}
+  .hero-image {width: 90%;height: auto;object-fit: contain;}
+  .kicker{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--muted);font-weight:700;margin-bottom:12px}
+  .hero h2{font-size:36px;margin:6px 0 10px;color:#fff;line-height:1.02}
+  .hero p.lead{color:#dce6ea;max-width:58ch;line-height:1.6}
+  .hero .actions{display:flex;gap:12px;margin-top:18px}
+  .pill-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .pill{background:var(--glass);padding:10px 12px;border-radius:999px;font-weight:700;color:var(--muted);font-size:14px}
+
+  /* mock / illustration */
+  .mock{height:420px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(45,212,191,0.04), rgba(123,108,255,0.03));position:relative;overflow:hidden}
+  .glow-blob{position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:60%;background:radial-gradient(circle at 30% 30%, rgba(45,212,191,0.14), transparent 20%);filter:blur(28px)}
+  .robot{width:220px;transform:translateY(6px);opacity:0.95;mix-blend-mode:screen}
+
+  /* services */
+  section h3{font-family:Inter;font-size:20px;color:#eaf0f4}
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:14px}
+  .service-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:18px;border-radius:12px;min-height:120px;transition:transform .28s,box-shadow .28s}
+  .service-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,8,13,0.6)}
+  .service-card h4{color:#eaf0f4;margin-bottom:8px}
+  .service-card p{color:#c7d1d6}
+
+  /* tech stack */
+  .stack{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .tech-pill{padding:8px 12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);font-weight:700;color:var(--muted);display:inline-flex;gap:8px;align-items:center}
+  .tech-icon{width:10px;height:10px;border-radius:3px;background:var(--accent-2);box-shadow:0 0 10px rgba(45,212,191,0.12)}
+
+  /* portfolio */
+  .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+  .proj{border-radius:12px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));transition:transform .3s, box-shadow .3s;cursor:pointer}
+  .proj:hover{transform:translateY(-8px);box-shadow:0 28px 60px rgba(2,8,13,0.6)}
+  .proj img{width:100%;height:170px;object-fit:cover}
+  .proj .info{padding:12px}
+  .proj h5{margin:0 0 6px;color:#eaf0f4}
+  .proj p{margin:0;color:#bfc9cf;font-size:0.95rem}
+
+  /* about + contact */
+  .about{display:flex;gap:18px;align-items:center;margin-top:8px}
+  .avatar{min-width:140px;height:140px;border-radius:18px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#041014;font-size:28px}
+  .contact-card{padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent)}
+
+  /* form */
+  form{display:grid;gap:10px}
+  input,textarea{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:12px;border-radius:10px;color:#eaf0f4;resize:vertical}
+  input:focus,textarea:focus{outline:none;border-color:rgba(109,109,255,0.32);box-shadow:0 8px 30px rgba(109,109,255,0.06)}
+  .submit{display:inline-block;padding:12px 16px;border-radius:12px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border:none;color:#041014;font-weight:800;cursor:pointer}
+
+  /* tiny UI */
+  footer{text-align:center;padding:28px;color:#93a0a7;margin-top:28px}
+
+  /* responsive */
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr;padding:8px}
+    .services-grid,.portfolio-grid{grid-template-columns:repeat(2,1fr)}
+    header{padding:10px 14px}
+  }
+  @media (max-width:640px){
+    .services-grid,.portfolio-grid{grid-template-columns:1fr}
+    .brand h1{font-size:15px}
+    .hero h2{font-size:24px}
+  }
+
+  /* Animations: reveal */
+  .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
+  .reveal.show{opacity:1;transform:translateY(0)}
+  /* button color change on hover + focus */
+  .cta-primary:focus,.cta-primary:hover{outline:none}
+  nav a.btn-hover{
+    transition: all .18s ease;
+  }
+  nav a.btn-hover:hover{
+    background:linear-gradient(90deg,var(--accent-1), #ffffff22);
+    color:#fff;
+    transform:translateY(-4px);
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo-badge"><img src="logoat.png" alt="Logo AnzoToltech"></div>
+        <div>
+          <h1>AnzoToltech</h1>
+          <div style="font-size:12px;color:var(--muted)">Tecnología con raíz tolimense</div>
+        </div>
+      </div>
+
+      <nav>
+        <a class="btn-hover" href="#inicio">Inicio</a>
+        <a class="btn-hover" href="#servicios">Servicios</a>
+        <a class="btn-hover" href="#portafolio">Portafolio</a>
+        <a class="btn-hover" href="#skills">Tecnologías</a>
+        <a class="btn-hover" href="#contacto">Contacto</a>
+        <button class="cta-primary" onclick="scrollToSection('contacto')">Cotizar</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section id="inicio" style="margin-top:12px">
+        <div class="hero">
+          <div class="hero-card reveal">
+            <span class="kicker">Soluciones a medida • AnzoToltech</span>
+            <h2>Desarrollamos tus ideas, sin importar su tamaño.</h2>
+            <p class="lead">En <strong>AnzoToltech</strong> convertimos conceptos en productos digitales reales: plataformas, sitios web, sistemas inteligentes y automatizaciones. Trabajamos con visión estratégica y cuidado artesanal para que tu proyecto funcione y escale.</p>
+
+            <div class="actions">
+              <button class="cta-primary" onclick="scrollToSection('portafolio')">Ver proyectos</button>
+              <button class="cta-primary" onclick="scrollToSection('servicios')">Explorar servicios</button>
+            </div>
+
+            <div class="pill-list" aria-hidden>
+              <div class="pill">Desarrollo rápido y confiable</div>
+                <div class="pill">Soluciones a la medida</div>
+                <div class="pill">Calidad garantizada</div>
+                <div class="pill">Atención personalizada</div>
+                <div class="pill">Soporte y acompañamiento</div>
+                <div class="pill">Precios justos y transparentes</div>
+                <div class="pill">Tecnología moderna y segura</div>
+                <div class="pill">Resultados que impulsan tu negocio</div> 
+            </div>
+          </div>
+          <div class="mock reveal">
+            <div class="glow-blob"></div>
+            <img src="logoat.png" class="hero-image"alt="Imagen principal">
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section id="servicios">
+        <h3>Servicios</h3>
+        <div class="services-grid">
+          <div class="service-card reveal">
+            <h4>Diseño & Desarrollo Web</h4>
+            <p>Páginas responsivas, e-commerce, landing pages y apps web con foco en conversión y rendimiento.</p>
+          </div>
+          <div class="service-card reveal">
+            <h4>Sistemas Empresariales</h4>
+            <p>ERPs, plataformas internas y soluciones a medida para operaciones que necesitan escalar.</p>
+          </div>
+          <div class="service-card reveal">
+            <h4>Inteligencia Artificial</h4>
+            <p>Modelos y pipelines para automatizar, analizar y predecir — IA aplicada al negocio.</p>
+          </div>
+          <div class="service-card reveal">
+            <h4>Automatización & RPA</h4>
+            <p>Automatizamos procesos repetitivos para ahorrar tiempo y reducir errores humanos.</p>
+          </div>
+          <div class="service-card reveal">
+            <h4>Cloud & DevOps</h4>
+            <p>Despliegue, infraestructura y pipelines seguros y escalables en la nube.</p>
+          </div>
+          <div class="service-card reveal">
+            <h4>Soporte & Consultoría</h4>
+            <p>Asesoría estratégica, auditoría técnica y soporte continuo para tu solución.</p>
+          </div>
+          <div class="service-card reveal">
+            <h4>Aplicaciones Móviles</h4>
+            <p>Desarrollo de apps intuitivas y rápidas para Android y iOS, pensadas para crecer contigo.</p>
+          </div>
+          <div class="service-card reveal">
+            <h4>Aplicaciones Web Avanzadas</h4>
+            <p>Construimos plataformas completas, dashboards y herramientas online accesibles desde cualquier dispositivo.</p>
+          </div>
+          <div class="service-card reveal">
+            <h4>Soluciones para Emprendedores</h4>
+            <p>Páginas web económicas, branding básico y herramientas digitales para que tu idea despegue sin complicaciones.</p>
+          </div>
+          <div class="service-card reveal">
+            <h4>Mentorías y Acompañamiento</h4>
+            <p>Guía personalizada para ayudarte a planificar, lanzar y escalar tu proyecto digital paso a paso.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PORTFOLIO -->
+      <section id="portafolio">
+        <h3>Portafolio destacado</h3>
+        <div class="portfolio-grid">
+          <!-- PROYECTO 1: Rentabilidad Empresarial -->
+          <div class="proj reveal">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=60" alt="">
+            <div class="info">
+              <h5>Sistema de Rentabilidad Empresarial</h5>
+              <p>Plataforma en Laravel + React para calcular costos, utilidades y KPI empresariales en tiempo real.</p>
+            </div>
+          </div>
+
+          <!-- PROYECTO 2: Chatbot Médico -->
+          <div class="proj reveal">
+            <img src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=900&q=60" alt="">
+            <div class="info">
+              <h5>Chatbot para Citas Médicas</h5>
+              <p>Bot que gestiona más de 100 citas al día, optimizando atención al cliente y automatizando procesos.</p>
+            </div>
+          </div>
+
+          <!-- PROYECTO 3: Monitoreo Latencia + Eléctrico -->
+          <div class="proj reveal">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=60" alt="">
+            <div class="info">
+              <h5>Monitoreo de Latencia & Corriente</h5>
+              <p>Sistema creado con Python que mide red, latencia y consumo eléctrico para prevenir fallos críticos.</p>
+            </div>
+          </div>
+
+          <!-- PROYECTO 4: E-commerce de Ropa -->
+          <div class="proj reveal">
+            <img src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=900&q=60" alt="">
+            <div class="info">
+              <h5>Tienda Virtual de Ropa</h5>
+              <p>Plataforma e-commerce con carrito, inventario, pagos y panel administrativo para una marca de moda.</p>
+            </div>
+          </div>
+
+          <!-- PROYECTO 5: App Empresarial Flutter + Laravel -->
+          <div class="proj reveal">
+            <img src="https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=900&q=60" alt="">
+            <div class="info">
+              <h5>App Empresarial (APK)</h5>
+              <p>Aplicación móvil hecha en Flutter + Laravel para gestionar operaciones del negocio desde el celular.</p>
+            </div>
+          </div>
+
+          <!-- PROYECTO 6: Inteligencia Artificial -->
+          <div class="proj reveal">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=60" alt="">
+            <div class="info">
+              <h5>Modelo de Inteligencia Artificial</h5>
+              <p>IA diseñada para analizar datos, predecir tendencias y automatizar decisiones estratégicas.</p>
+            </div>
+          </div>
+
+          <!-- PROYECTO 7: API REST Empresarial -->
+          <div class="proj reveal">
+            <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=60" alt="">
+            <div class="info">
+              <h5>API REST de Gestión</h5>
+              <p>Backend con Node.js + Express para control de inventarios, facturación, reportes y usuarios.</p>
+            </div>
+          </div>
+
+          <!-- PROYECTO 8: Landing Page Profesional -->
+          <div class="proj reveal">
+            <img src="https://images.unsplash.com/photo-1508830524289-0adcbe822b40?auto=format&fit=crop&w=900&q=60" alt="">
+            <div class="info">
+              <h5>Landing Page Profesional</h5>
+              <p>Diseño UI/UX + desarrollo en React para mejorar conversión, marca y presencia digital.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TECH STACK -->
+      <section id="skills">
+        <h3>Tecnologías & Herramientas</h3>
+        <p>Lenguajes, frameworks y herramientas que utilizo habitualmente:</p>
+        <div class="stack reveal">
+          <!-- Tech list - edit as needed -->
+          <span class="tech-pill"><span class="tech-icon" style="background:#f97316"></span> HTML5</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#2563eb"></span> CSS3</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#f7df1e"></span> JavaScript</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#61dafb"></span> React</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#3b82f6"></span> Vue</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#111827"></span> Node.js</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#00d4b4"></span> Laravel (PHP)</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#ffd43b"></span> Python (Django/Flask)</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#512bd4"></span> C# / .NET</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#0ea5a4"></span> SQL / PostgreSQL</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#ff7ab6"></span> TensorFlow / PyTorch</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#6ee7b7"></span> Docker / Kubernetes</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#94a3b8"></span> Git / CI-CD</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#38bdf8"></span> AWS / GCP</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#02569B"></span> Flutter</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#0175C2"></span> Dart</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#3178C6"></span> TypeScript</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#F05033"></span> GitHub</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#E34F26"></span> REST APIs</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#4DB33D"></span> MongoDB</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#F29111"></span> Firebase Firestore</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#1E293B"></span> Linux / Bash</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#FFB400"></span> Postman</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#38BDF8"></span> TailwindCSS</span>
+          <span class="tech-pill"><span class="tech-icon" style="background:#7952B3"></span> Bootstrap</span>
+
+        </div>
+      </section>
+
+      <!-- ABOUT & CONTACT -->
+      <section id="nosotros">
+        <h3>Sobre AnzoToltech</h3>
+        <div class="about">
+          <div class="avatar">AT</div>
+          <div>
+            <p><strong>AnzoToltech</strong> un equipo de desarrollo que nació en Bogotá, pero construido con el espíritu, la disciplina y las raíces de Tolimenses. Unimos tradición y creatividad con ingeniería de software moderna para crear soluciones tecnológicas confiables, eficientes y llenas de identidad.
+                Nuestro equipo está liderado por profesionales comprometidos con cada proyecto. <br>En AnzoToltech creemos en la tecnología con propósito: soluciones pensadas para personas, empresas y emprendedores que quieren crecer y transformar su mundo digital.
+            <p style="margin-top:8px"><strong>Valores:</strong> calidad, cercanía, innovación y responsabilidad.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contacto">
+        <h3>Contacto</h3>
+        <div class="contact-card reveal">
+          <p>¿Listo para arrancar? Déjame tu mensaje y te contacto con una propuesta.</p>
+
+          <!-- FORM: using FormSubmit (no backend required) -->
+          <!-- Replace the email in the action below if you want a different destination -->
+          <form action="https://formsubmit.co/azotolt@gmail.com" method="POST">
+  
+            <!-- Ajustes recomendados por FormSubmit -->
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_subject" value="Contacto Web — AnzoToltech">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_autoresponse" value="¡Gracias por contactarnos! Te responderemos muy pronto.">
+            <input type="hidden" name="_next" value="https://yourwebsite.com/thanks.html">
+
+            <label style="display:block;margin-bottom:6px"><strong>Nombre</strong></label>
+            <input type="text" name="name" placeholder="Tu nombre" required>
+
+            <label style="display:block;margin-bottom:6px;margin-top:6px"><strong>Correo</strong></label>
+            <input type="email" name="email" placeholder="tu@correo.com" required>
+
+            <label style="display:block;margin-bottom:6px;margin-top:6px"><strong>Mensaje</strong></label>
+            <textarea name="message" rows="5" placeholder="Cuéntame tu idea..." required></textarea>
+            
+            <div style="margin-top:8px">
+              <button type="submit" class="submit">Enviar mensaje</button>
+            </div>
+
+          </form>
+
+
+          <p style="margin-top:12px;color:var(--muted)">O también:<br>• 📧<a href="mailto:azoltolt@gmail.com">azotolt@gmail.com</a> <br>• 📞 <a href="tel:+573247113544">+57 324 711 3544</a></p>
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> AnzoToltech — Tecnología con raíz tolimense.
+      </footer>
+    </main>
+  </div>
+
+  <!-- floating whatsapp -->
+  <a class="whatsapp" style="position:fixed;right:18px;bottom:18px;background:linear-gradient(90deg,var(--accent-2),var(--accent-1));width:64px;height:64px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#041014;font-weight:800;box-shadow:0 12px 40px rgba(2,8,13,0.6);z-index:90" href="#" onclick="openWhatsApp()">💬</a>
+
+<script>
+  // year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // smooth reveal when intersect
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('show');
+        e.target.classList.remove('reveal');
+        observer.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.12});
+
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+  // scroll helper
+  function scrollToSection(id){
+    document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  // whatsapp helper
+  function openWhatsApp(){
+    const phone = '+573247113544'; // cambia si quieres
+    const msg = encodeURIComponent('Hola 👋, quiero información sobre un proyecto con AnzoToltech.');
+    window.open(`https://wa.me/${phone.replace(/\\D/g,'')}?text=${msg}`,'_blank');
+  }
+
+  // button color micro-interaction: change nav link color on hover (example)
+  document.querySelectorAll('nav a').forEach(a=>{
+    a.addEventListener('mouseenter', ()=> a.style.color = '#fff');
+    a.addEventListener('mouseleave', ()=> a.style.color = 'var(--muted)');
+  });
+
+  // simple form handler to show a success message and avoid leaving the page
+  function handleForm(ev){
+    ev.preventDefault();
+    const form = ev.target;
+    const data = new FormData(form);
+    // basic validation done by browser; now submit via fetch to FormSubmit
+    fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(res=>{
+      if(res.ok){
+        alert('Mensaje enviado. Te contacto pronto — gracias 😉');
+        form.reset();
+      } else {
+        alert('Hubo un problema al enviar. Puedes escribir a jaiderdanielmachado@gmail.com');
+      }
+    }).catch(err=>{
+      alert('Error enviando el mensaje. Intenta por correo: jaiderdanielmachado@gmail.com');
+    });
+  }
+</script>
+</body>
+</html>
