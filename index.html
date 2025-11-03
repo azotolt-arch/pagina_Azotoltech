@@ -117,6 +117,63 @@
     color:#fff;
     transform:translateY(-4px);
   }
+  #cookie-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.78);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  }
+
+  #cookie-box {
+    background: #0f2230;
+    padding: 24px;
+    border-radius: 14px;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  #cookie-box h3 {
+    color: #fff;
+    margin-bottom: 12px;
+  }
+
+  #cookie-box p {
+    color: #cfd9df;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .cookie-actions {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  #accept-cookies, #decline-cookies {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  #accept-cookies {
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+    color: #041014;
+  }
+
+  #decline-cookies {
+    background: #ff4444;
+    color: white;
+  }
+
 </style>
 </head>
 <body>
@@ -390,6 +447,17 @@
 
   <!-- floating whatsapp -->
   <a class="whatsapp" style="position:fixed;right:18px;bottom:18px;background:linear-gradient(90deg,var(--accent-2),var(--accent-1));width:64px;height:64px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#041014;font-weight:800;box-shadow:0 12px 40px rgba(2,8,13,0.6);z-index:90" href="#" onclick="openWhatsApp()">💬</a>
+  <div id="cookie-overlay">
+    <div id="cookie-box">
+      <h3>🍪 Usamos cookies</h3>
+      <p>Usamos cookies y tecnologías similares para mejorar tu experiencia y garantizar el correcto funcionamiento del sitio. Debes aceptar para continuar usando la página.</p>
+
+      <div class="cookie-actions">
+        <button id="accept-cookies">Aceptar</button>
+        <button id="decline-cookies">Salir</button>
+      </div>
+    </div>
+  </div>
 
 <script>
   // year
@@ -447,6 +515,28 @@
       alert('Error enviando el mensaje. Intenta por correo: jaiderdanielmachado@gmail.com');
     });
   }
+  // COOKIE CONSENT
+  document.addEventListener("DOMContentLoaded", () => {
+    const overlay = document.getElementById("cookie-overlay");
+    const acceptBtn = document.getElementById("accept-cookies");
+    const declineBtn = document.getElementById("decline-cookies");
+
+    // ¿Ya aceptaron?
+    if (localStorage.getItem("cookieConsent") === "accepted") {
+      overlay.style.display = "none";
+    }
+
+    acceptBtn.addEventListener("click", () => {
+      localStorage.setItem("cookieConsent", "accepted");
+      overlay.style.display = "none";
+    });
+
+    declineBtn.addEventListener("click", () => {
+      // Bloquea el sitio
+      alert("Debes aceptar las cookies para usar este sitio.");
+      window.location.href = "https://google.com";
+    });
+  });
 </script>
 </body>
 </html>
