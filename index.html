@@ -462,8 +462,11 @@
         <div class="contact-card reveal">
           <p>¿Listo para arrancar? escribenos y te contacto con una propuesta.</p>
 
-          <!-- FORM: using FormSubmit (no backend required) -->
-          <p style="margin-top:12px;color:var(--muted)">A:<br>• 📧<a href="mailto:azoltolt@gmail.com">azotolt@gmail.com</a> <br>• 📞 <a href="tel:+573247113544">+57 324 711 3544</a></p>
+          <p style="margin-top:12px;color:var(--muted)">
+            A:<br>
+            • 📧 <a href="mailto:azotolt@gmail.com">azotolt@gmail.com</a> <br>
+            • 📞 <a href="#" onclick="openWhatsApp()">+57 324 711 3544</a>
+          </p>
         </div>
       </section>
 
@@ -518,11 +521,14 @@
   }
 
   // whatsapp helper
-  function openWhatsApp(){
-    const phone = '+573247113544'; // cambia si quieres
+  function openWhatsApp() {
+    const phone = '+573247113544'; // tu número
     const msg = encodeURIComponent('Hola 👋, quiero información sobre un proyecto con AnzoToltech.');
-    window.open(`https://wa.me/${phone.replace(/\\D/g,'')}?text=${msg}`,'_blank');
+    const cleaned = phone.replace(/\D/g, ''); // quita espacios o símbolos
+
+    window.open(`https://wa.me/${cleaned}?text=${msg}`, '_blank');
   }
+
 
   // button color micro-interaction: change nav link color on hover (example)
   document.querySelectorAll('nav a').forEach(a=>{
